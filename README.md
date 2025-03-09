@@ -4,7 +4,6 @@
 
 ## Requirements
 
-*   `bash` (required)
 *   `termdown` (required): Used to display the timer in the terminal.
     *   Debian/Ubuntu based systems: `sudo apt-get install termdown`
     *   macOS (Homebrew): `brew install termdown`
@@ -13,7 +12,6 @@
 *   `lolcat` (optional): Used to colorize the timer output.
     *   Debian/Ubuntu based systems: `sudo apt-get install lolcat`
     *   macOS (Homebrew): `brew install lolcat`
-*   `sleep` (required): Used for time control within the script. Usually comes standard with Linux/macOS.
 
 ## Installation
 

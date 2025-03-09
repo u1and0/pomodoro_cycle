@@ -7,6 +7,8 @@ _POMO_LONG_BREAK_TIME=15m
 _POMO_ALERT_TIME=30
 _POMO_SLEEP_TIME=2
 _POMO_CYCLES=4
+# カラー表示フラグ (0: false, 1: true)
+_POMO_COLOR=0
 
 # notify-sendが使えるか確認する関数
 _notify() {
@@ -21,10 +23,12 @@ _notify() {
 _pomo_timer() {
     local notify_message="$1"
     local duration="$2"
-    if command -v lolcat &> /dev/null; then  # カラー出力
-        termdown -b -c $_POMO_ALERT_TIME -t "$notify_message" $duration | lolcat
+
+    if [[ "$_POMO_COLOR" -eq 1 ]] && command -v lolcat &> /dev/null; then
+      # カラー表示
+      termdown -b -c $_POMO_ALERT_TIME -t "$notify_message" $duration | lolcat
     else
-        termdown -b -c $_POMO_ALERT_TIME -t "$notify_message" $duration
+      termdown -b -c $_POMO_ALERT_TIME -t "$notify_message" $duration
     fi
     _notify "Pomodoro" "$notify_message"
 }
@@ -57,6 +61,10 @@ pomodoro_cycle() {
                 _POMO_SLEEP_TIME="$2"
                 shift 2
                 ;;
+            --color|-C)
+                _POMO_COLOR=1
+                shift
+                ;;
             --help|-h)
                 echo "使用方法: pomodoro_cycle [オプション]"
                 echo "オプション:"
@@ -66,10 +74,12 @@ pomodoro_cycle() {
                 echo "  -c, --cycles NUM   サイクル数を設定 (デフォルト: 4)"
                 echo "  -a, --alert NUM    アラート時間を設定 (デフォルト: 30秒)"
                 echo "  -z, --sleep NUM    通知間の待機時間を設定 (デフォルト: 2秒)"
+                echo "  -C, --color        カラー表示(lolcatがインストールされている場合)"
                 echo "  -h, --help         このヘルプメッセージを表示"
                 echo ""
                 echo "例: pomodoro_cycle -w 45m -s 10m -l 30m -c 3"
                 echo "例: pomodoro_cycle --work 45m --short 10m --long 30m --cycles 3"
+                echo "例: pomodoro_cycle -C"
                 return 0
                 ;;
             *)
@@ -81,7 +91,8 @@ pomodoro_cycle() {
     done
 
     echo "🍅 ポモドーロタイマー開始: $_POMO_CYCLES サイクル"
-    echo "⏱️ 作業時間: $_POMO_WORK_TIME | 短い休憩: $_POMO_BREAK_TIME | 長い休憩: $_POMO_LONG_BREAK_TIME"
+    echo "⏱️ 作業時間: $_POMO_WORK_TIME | 短い休憩: $_POMO_BREAK_TIME | 長い休憩: $_POMO_LONG_BR
+EAK_TIME"
 
     for i in $(seq 1 $_POMO_CYCLES); do
         echo "⏰ サイクル $i/$_POMO_CYCLES: 作業時間 開始"
@@ -101,4 +112,3 @@ pomodoro_cycle() {
 
     echo "✅ ポモドーロタイマー完了！🎉"
 }
-
