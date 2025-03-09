@@ -5,7 +5,7 @@
 ## Requirements
 
 *   `termdown` (required): Used to display the timer in the terminal.
-    *   Debian/Ubuntu based systems: `sudo apt-get install termdown`
+    *   Debian/Ubuntu based systems: `sudo snap install termdown`
     *   macOS (Homebrew): `brew install termdown`
 *   `notify-send` (optional): Used to send desktop notifications. If not installed, a message will be displayed in the terminal.
     *   Debian/Ubuntu based systems: `sudo apt-get install libnotify-bin`
